@@ -1,0 +1,96 @@
+centreEC:id,nomCommune,codeCNI,timbre,departement,region,codeRegion
+Extrait:id,numDansleregistre,dateDeLivrance,paysNaissance,prenom,sexe,dateNaissance,lieuNaissance,heureNaissance,anneeRegistre,idPere,idMere,idCentreEc,idAgent
+Utilisateur:id,prenom,nom,email,telephone,motDepasse,photoCNI,numCNI,type,date,heure,idAdmin,actif
+Pere:id,prenom,nom,numCNI
+Mere:id,prenom,nom,numCNI
+Demande:id,idExtrait,idDelivreur,idRetireur,idCitoyen,date,heure,status,token
+Retrait:id,idDemande,date,heure
+
+
+CREATE TABLE CentreEC (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nomCommune VARCHAR(255) NOT NULL,
+    codeCNI VARCHAR(255) NOT NULL,
+    timbre VARCHAR(255),
+    departement VARCHAR(255) NOT NULL,
+    region VARCHAR(255) NOT NULL,
+    codeRegion VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Extrait (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    numDansLeRegistre INT NOT NULL,
+    dateDeLivrance DATETIME NOT NULL,
+    paysNaissance VARCHAR(255) NOT NULL,
+    prenom VARCHAR(255) NOT NULL,
+    sexe ENUM('MASCULIN', 'FEMININ') NOT NULL,
+    dateNaissance DATE NOT NULL,
+    lieuNaissance VARCHAR(255) NOT NULL,
+    heureNaissance TIME NOT NULL,
+    anneeRegistre INT NOT NULL,
+    idPere INT NOT NULL,
+    idMere INT NOT NULL,
+    idCentreEc INT NOT NULL,
+    idAgent INT NOT NULL,
+    FOREIGN KEY (idCentreEc) REFERENCES CentreEC(id),
+    FOREIGN KEY (idPere) REFERENCES Pere(id),
+    FOREIGN KEY (idMere) REFERENCES Mere(id),
+    FOREIGN KEY (idAgent) REFERENCES Utilisateur(id)
+);
+
+CREATE TABLE Utilisateur (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    prenom VARCHAR(255) NOT NULL,
+    nom VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    telephone VARCHAR(255) NOT NULL,
+    motDePasse VARCHAR(255) NOT NULL,
+    photoCNI VARCHAR(255),
+    numCNI VARCHAR(255) NOT NULL,
+    type ENUM('ADMIN', 'CITOYEN', 'AGENTMAIRIE', 'AGENTRETRAIT') NOT NULL,
+    idCreateur INT,
+    date DATE NOT NULL,
+    heure TIME NOT NULL,
+    idAdmin INT,
+    actif BOOLEAN NOT NULL,
+    FOREIGN KEY (idCreateur) REFERENCES Utilisateur(id),
+    FOREIGN KEY (idAdmin) REFERENCES Utilisateur(id)
+);
+
+CREATE TABLE Pere (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    prenom VARCHAR(255) NOT NULL,
+    nom VARCHAR(255) NOT NULL,
+    numCNI VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Mere (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    prenom VARCHAR(255) NOT NULL,
+    nom VARCHAR(255) NOT NULL,
+    numCNI VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Demande (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    idExtrait INT NOT NULL,
+    idDelivreur INT ,
+    idRetireur INT ,
+    idCitoyen INT NOT NULL,
+    date DATE NOT NULL,
+    heure TIME NOT NULL,
+    status ENUM('VALIDE', 'REFUSE', 'EN COURS') NOT NULL,
+    token VARCHAR(255),
+    FOREIGN KEY (idExtrait) REFERENCES Extrait(id),
+    FOREIGN KEY (idDelivreur) REFERENCES Utilisateur(id),
+    FOREIGN KEY (idRetireur) REFERENCES Utilisateur(id),
+    FOREIGN KEY (idCitoyen) REFERENCES Utilisateur(id)
+);
+
+CREATE TABLE Retrait (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    idDemande INT NOT NULL,
+    date DATE NOT NULL,
+    heure TIME NOT NULL,
+    FOREIGN KEY (idDemande) REFERENCES Demande(id)
+);
