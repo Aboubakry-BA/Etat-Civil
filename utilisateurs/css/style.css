@@ -1,0 +1,191 @@
+* {
+  box-sizing: border-box;
+}
+
+/* Définition des polices personnalisées */
+@font-face {
+  font-family: 'BallparkWeiner';
+  src: url('../polices/ballpark.eot');
+  src: url('../polices/ballpark.eot?#iefix') format('embedded-opentype'),
+    url('../polices/ballpark.woff') format('woff'),
+    url('../polices/ballpark.ttf') format('truetype'),
+    url('../polices/ballpark.svg#BallparkWeiner') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Dayrom';
+  src: url('../polices/dayrom.eot');
+  src: url('../polices/dayrom.eot?#iefix') format('embedded-opentype'),
+    url('../polices/dayrom.woff') format('woff'),
+    url('../polices/dayrom.ttf') format('truetype'),
+    url('../polices/dayrom.svg#Dayrom') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+ul {
+  list-style-type: none;
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  width: 95%;
+  background-color: rgb(163, 115, 80);
+  position: sticky;
+  top: 0;
+}
+
+ul>li {
+  font-family: BallparkWeiner;
+}
+
+li {
+  float: right;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  font-size: 20px;
+  text-decoration: none;
+}
+
+li a:hover:not(.active) {
+  background-color: #111;
+}
+
+.active {
+  background-color: #ccc;
+  color: #000;
+}
+
+div[class="entete"] {
+  padding-top: 20px;
+  width: 95%;
+  text-align: justify;
+  font-family: Dayrom, verdana, serif;
+  margin: auto;
+}
+
+#bloc_page {
+  width: 95%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-image: url('../images/etat-civil.jpg');
+  background-repeat: no-repeat;
+  background-size: 45% 100%;
+  animation: diapo 30s linear infinite normal;
+}
+
+@keyframes diapo {
+  0% {
+    background-image: url('../images/etat-civil.jpg');
+  }
+
+  25% {
+    background-image: url('../images/1.jpg');
+  }
+
+  50% {
+    background-image: url('../images/2.jpg');
+  }
+
+  75% {
+    background-image: url('../images/3.jpg');
+  }
+}
+
+#bloc_page>p {
+  width: 30%;
+}
+
+/* Bordered form */
+form {
+  width: 53%;
+  border: 3px solid #f1f1f1;
+}
+
+/* Full-width inputs */
+input[type=text],
+input[type=email],
+input[type=password],
+input[type=number] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: rgb(163, 115, 80);
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* Add a hover effect for buttons */
+button:hover {
+  opacity: 0.8;
+}
+
+/* Extra style for the cancel button (red) */
+.cancelbtn {
+  width: auto;
+  padding: 10px 18px;
+  background-color: #f44336;
+}
+
+/* Center the avatar image inside this container */
+.imgcontainer {
+  text-align: center;
+  margin: 6px 0 3px 0;
+}
+
+/* Avatar image */
+img.avatar {
+  width: 40%;
+  border-radius: 50%;
+}
+
+/* Add padding to containers */
+.container {
+  padding: 16px;
+}
+
+/* The "Forgot password" text */
+span.psw {
+  float: right;
+  padding-top: 16px;
+}
+
+h3,
+label {
+  text-align: center;
+  padding-bottom: 15px;
+  font-family: Dayrom, serif;
+  border-bottom: 3px solid #f1f1f1;
+  /*font-family: 'BallparkWeiner',Dayrom, serif;*/
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+  span.psw {
+    display: block;
+    float: none;
+  }
+
+  .cancelbtn {
+    width: 100%;
+  }
+}
