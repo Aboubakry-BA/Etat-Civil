@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : mar. 09 avr. 2024 à 04:19
+-- Généré le : lun. 06 mai 2024 à 05:30
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -42,7 +42,13 @@ CREATE TABLE `centreec` (
 --
 
 INSERT INTO `centreec` (`id`, `nomCommune`, `codeCNI`, `timbre`, `departement`, `region`, `codeRegion`) VALUES
-(1, 'Guinguinéo', '476', NULL, 'Guinguinéo', 'Kaolack', '5');
+(1, 'Guinguinéo', '476', NULL, 'Guinguinéo', 'Kaolack', '5'),
+(2, 'Pikine', '1', NULL, 'Pikine', 'DAKAR', '1'),
+(3, 'x', '1', NULL, 'x', 'DAKAR', '1'),
+(4, 'w', '1', NULL, 'w', 'DAKAR', '1'),
+(5, '1', '1', NULL, 'w', 'DAKAR', '1'),
+(6, 'Baba Garage', '1', NULL, 'Bambey', 'DIOURBEL', '1'),
+(7, 'Mbour', '1', NULL, 'Mbour', 'THIES', '1');
 
 -- --------------------------------------------------------
 
@@ -67,7 +73,8 @@ CREATE TABLE `demande` (
 --
 
 INSERT INTO `demande` (`id`, `idExtrait`, `idDelivreur`, `idRetireur`, `idCitoyen`, `date`, `heure`, `status`, `token`) VALUES
-(1, 1, NULL, NULL, 32, '2024-04-09', '03:35:02', 'EN COURS', NULL);
+(1, 1, 34, NULL, 32, '2024-04-09', '03:35:02', 'EN COURS', '567545'),
+(3, 1, 34, NULL, 33, '2024-04-28', '20:19:53', 'REFUSE', NULL);
 
 -- --------------------------------------------------------
 
@@ -97,7 +104,9 @@ CREATE TABLE `extrait` (
 --
 
 INSERT INTO `extrait` (`id`, `numDansLeRegistre`, `dateDeLivrance`, `paysNaissance`, `prenom`, `sexe`, `dateNaissance`, `lieuNaissance`, `heureNaissance`, `anneeRegistre`, `idPere`, `idMere`, `idCentreEc`, `idAgent`) VALUES
-(1, 123, '2024-04-09 03:29:45', 'Senegal', 'Aboubakry', 'MASCULIN', '2025-04-09', 'Guinguinéo', '01:29:46', 2025, 1, 1, 1, NULL);
+(1, 123, '2021-04-09 03:29:45', 'Senegal', 'Aboubakry', 'MASCULIN', '2001-04-09', 'Guinguinéo', '01:29:46', 2001, 1, 1, 1, NULL),
+(7, 321, '2024-05-06 00:00:00', 'Senegal', 'Modou', 'MASCULIN', '2024-05-06', 'Bambey', '02:44:00', 2022, 26, 26, 6, 34),
+(11, 321, '2024-05-06 00:00:00', 'Senagal', 'Saly', 'MASCULIN', '2024-05-06', 'Mbour', '03:13:00', 1970, 30, 30, 7, 34);
 
 -- --------------------------------------------------------
 
@@ -117,7 +126,9 @@ CREATE TABLE `mere` (
 --
 
 INSERT INTO `mere` (`id`, `prenom`, `nom`, `numCNI`) VALUES
-(1, 'Sadio', 'GCBA', NULL);
+(1, 'Sadio', 'GCBA', NULL),
+(26, 'Faty', 'SALL', NULL),
+(30, 'Fatou', 'Diop', NULL);
 
 -- --------------------------------------------------------
 
@@ -137,7 +148,9 @@ CREATE TABLE `pere` (
 --
 
 INSERT INTO `pere` (`id`, `prenom`, `nom`, `numCNI`) VALUES
-(1, 'Abdoulaye', 'BA', NULL);
+(1, 'Abdoulaye', 'BA', NULL),
+(26, 'Aboubakry', 'BA', NULL),
+(30, 'Ousmane', 'Tine', NULL);
 
 -- --------------------------------------------------------
 
@@ -184,7 +197,9 @@ INSERT INTO `utilisateur` (`id`, `prenom`, `nom`, `email`, `telephone`, `motDePa
 (29, 'Abdoulaye', 'BA', 'baa70390@gmail.com', '774954357', '$2y$10$wd0L9V0IVpmFHHtzU/hWTeP1Fq1FQxGlRAmMpxFRRiBjQcaV47x6O', NULL, '', 'CITOYEN', '2024-04-08', '03:33:40', NULL, 1, '86ba0bcacd35cb697af21220f3a56040', '652786'),
 (30, 'Abdoulaye', 'BA', 'baa70391@gmail.com', '774954357', '$2y$10$Ngv95ZvQ.a6a9TXo9Mpx0uV70tRL6Z2SPEYs19Gdt.gjBjcOsLNhK', NULL, '', 'CITOYEN', '2024-04-08', '03:36:54', NULL, 1, '933056fd300d6de18dfc5d6de2212e5d', NULL),
 (31, 'Abdoulaye', 'BA', 'baa70392@gmail.com', '774954357', '$2y$10$0/UDhCD9gGWKKJw588IkQePR2joDrdnNw0ZS3yXtcB/K29nljDnBu', NULL, '', 'CITOYEN', '2024-04-08', '03:38:42', NULL, 1, '3fc5fbf7793a94fb12cd616ca7d87f86', NULL),
-(32, 'Aboubakry', 'BA', 'aboubakryba@esp.sn', '774954357', '$2y$10$q0RE0t0PtURdMu0LKrnA4ey82ONLfbRqevLBCD41dHDTJMFTEItCa', NULL, '', 'CITOYEN', '2024-04-08', '06:06:58', NULL, 1, 'e4f6525e53cb6dcf71d39f582b1586c4', '781524');
+(32, 'Aboubakry', 'BA', 'aboubakryba@esp.sn', '774954357', '$2y$10$q0RE0t0PtURdMu0LKrnA4ey82ONLfbRqevLBCD41dHDTJMFTEItCa', NULL, '', 'CITOYEN', '2024-04-08', '06:06:58', NULL, 1, 'e4f6525e53cb6dcf71d39f582b1586c4', '291006'),
+(33, 'Ndeye Coumba', 'Samb', 'ndeyecoumba@esp.sn', '777777777', '$2y$10$FgO1fdWYpswb6jA7eq7wfemiEYWdWN7EU/WHFoIx6YUquYVHtrnC2', NULL, '', 'CITOYEN', '2024-04-28', '20:12:48', NULL, 1, '8ed492300ac19762fa5c0924b91bb05e', '337281'),
+(34, 'Agent1', 'Mairie', 'agent1@mairie.sn', '777777777', '$2y$10$msG2OI9aLroUvrSdyCkLMOkaa5TesBL6uBwSocz2Jko5.rUY4bh1a', NULL, '', 'AGENTMAIRIE', '2024-05-05', '00:36:16', NULL, 1, '66a8419e0036ce562318010723e1fa89', '774642');
 
 --
 -- Index pour les tables déchargées
@@ -250,31 +265,31 @@ ALTER TABLE `utilisateur`
 -- AUTO_INCREMENT pour la table `centreec`
 --
 ALTER TABLE `centreec`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT pour la table `demande`
 --
 ALTER TABLE `demande`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT pour la table `extrait`
 --
 ALTER TABLE `extrait`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT pour la table `mere`
 --
 ALTER TABLE `mere`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT pour la table `pere`
 --
 ALTER TABLE `pere`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT pour la table `retrait`
@@ -286,7 +301,7 @@ ALTER TABLE `retrait`
 -- AUTO_INCREMENT pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- Contraintes pour les tables déchargées
