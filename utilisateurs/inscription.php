@@ -151,7 +151,7 @@ function sendValidationEmail($email, $token)
         $mail->isHTML(true);
         $mail->Subject = 'Validation de votre adresse e-mail';
         $mail->Body = "<p>Merci de vous être inscrit. Veuillez cliquer sur le lien suivant pour valider votre adresse e-mail :</p>";
-        $mail->Body .= "<p><a href='http://localhost/projets/Projet_extrait/utilisateurs/validation.php?email=" . urlencode($email) . "&token=" . $token . "'>Cliquez ici pour valider votre adresse e-mail</a></p>";
+        $mail->Body .= "<p><a href='http://localhost/Etat-civil/utilisateurs/validation.php?email=" . urlencode($email) . "&token=" . $token . "'>Cliquez ici pour valider votre adresse e-mail</a></p>";
         $mail->AltBody = "Merci de vous être inscrit. Veuillez cliquer sur le lien suivant pour valider votre adresse e-mail: http://localhost/projets/Projet_extrait/utilisateurs/validation.php?email=" . urlencode($email) . "&token=" . $token;
 
         if (!$mail->Send()) {
