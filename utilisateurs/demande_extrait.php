@@ -23,7 +23,16 @@ function formulaire($annee, $numRegistre, $commune, $msg, $success_msg)
     </head>
 
     <body>
-        <div class="entete" style="min-height: 50px;">
+        <ul>
+            <li style="float:left"><a>Etat Civil</a></li>
+            <li><a href="./deconnexion.php" onclick="return confirm('Confirmer déconnexion')">
+                    Se Deconnecter
+                </a>
+            </li>
+            <li><a href="./historique_demandes.php">Historique</a></li>
+            <li><a class="active" href="./demande_extrait.php">Demande</a></li>
+        </ul>
+        <div class="entete">
             <p>
                 Bienvenue cher visiteur. Cette application web (Sama Extrait) est spécialement
                 conçue pour vous permettre de visualiser et même imprimer votre extrait
@@ -71,6 +80,8 @@ function formulaire($annee, $numRegistre, $commune, $msg, $success_msg)
         <div style="min-height: 50px;">
 
         </div>
+        <?php
+        include_once ('includes/footer.php'); ?>
     </body>
 
     </html>

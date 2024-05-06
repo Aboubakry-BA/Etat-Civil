@@ -72,7 +72,7 @@ function traite($email, $otp)
             $_SESSION['id'] = $user_data['id'];
             $_SESSION['login'] = $user_data['email'];
 
-            header("Location: demande_extrait.php");
+            header("Location: visualisation_demandes.php");
             exit;
         } else {
             $msg = "Code OTP invalide.";

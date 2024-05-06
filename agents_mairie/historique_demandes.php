@@ -8,7 +8,31 @@ if (!isset($_SESSION['login'])) {
 
 include_once ('configs/config.php');
 
-function afficherHistorique($demandes)
+function traiteHistoriqueDemandes()
+{
+    global $conn;
+
+    try {
+        $query = "SELECT d.id, d.date, d.heure, d.status, e.numDansleregistre, e.anneeRegistre, ec.nomCommune, u.prenom, u.nom, u.email
+                  FROM demande d
+                  INNER JOIN extrait e ON d.idExtrait = e.id
+                  INNER JOIN centreec ec ON e.idCentreEc = ec.id
+                  INNER JOIN utilisateur u ON d.idCitoyen = u.id
+                  WHERE d.status = 'VALIDE' OR d.status = 'REFUSE'";
+        $result = mysqli_query($conn, $query);
+
+        $historique = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $historique[] = $row;
+        }
+
+        return $historique;
+    } catch (Exception $e) {
+        return false;
+    }
+}
+
+function afficherHistoriqueDemandes($historique)
 {
     ?>
     <!DOCTYPE html>
@@ -29,27 +53,32 @@ function afficherHistorique($demandes)
                     Se Deconnecter
                 </a>
             </li>
-            <li><a class="active" href="./historique_demandes.php">Historique</a></li>
-            <li><a href="./demande_extrait.php">Demande</a></li>
+            <li><a href="./declaration_naissance.php">Extrait</a></li>
+            <li><a class="active" href="./historique_demandes.php">Historiques</a></li>
+            <li><a href="./visualisation_demandes.php">Demandes</a></li>
         </ul>
         <div style="overflow-x:auto;width:95%;margin:auto">
             <h1>Historique des demandes</h1>
-            <?php if (empty($demandes)): ?>
+            <?php if (empty($historique)): ?>
                 <p style="text-align:center">Aucune demande trouvée.</p>
             <?php else: ?>
                 <table>
                     <tr>
                         <th>Date</th>
                         <th>Heure</th>
+                        <th>Auteur</th>
+                        <th>Email</th>
                         <th>Numéro dans le registre</th>
                         <th>Année de déclaration</th>
                         <th>Commune</th>
                         <th>Status</th>
                     </tr>
-                    <?php foreach ($demandes as $demande): ?>
+                    <?php foreach ($historique as $demande): ?>
                         <tr>
                             <td><?php echo $demande['date']; ?></td>
                             <td><?php echo $demande['heure']; ?></td>
+                            <td><?php echo $demande['prenom'] . ' ' . $demande['nom']; ?></td>
+                            <td><?php echo $demande['email']; ?></td>
                             <td><?php echo $demande['numDansleregistre']; ?></td>
                             <td><?php echo $demande['anneeRegistre']; ?></td>
                             <td><?php echo $demande['nomCommune']; ?></td>
@@ -70,33 +99,6 @@ function afficherHistorique($demandes)
     <?php
 }
 
-function traiteHistorique($idCitoyen)
-{
-    global $conn;
-
-    try {
-        $query = "SELECT d.id, d.date, d.heure, d.status, e.numDansleregistre, e.anneeRegistre, ec.nomCommune
-                  FROM demande d
-                  INNER JOIN extrait e ON d.idExtrait = e.id
-                  INNER JOIN centreec ec ON e.idCentreEc = ec.id
-                  WHERE d.idCitoyen = ?";
-        $stmt = mysqli_prepare($conn, $query);
-        mysqli_stmt_bind_param($stmt, "i", $idCitoyen);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-
-        $demandes = [];
-        while ($row = mysqli_fetch_assoc($result)) {
-            $demandes[] = $row;
-        }
-
-        return $demandes;
-    } catch (Exception $e) {
-        return false;
-    }
-}
-
-$idCitoyen = $_SESSION['id'];
-$demandes = traiteHistorique($idCitoyen);
-afficherHistorique($demandes);
+$historique = traiteHistoriqueDemandes();
+afficherHistoriqueDemandes($historique);
 ?>

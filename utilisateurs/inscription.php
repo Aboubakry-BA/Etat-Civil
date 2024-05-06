@@ -24,9 +24,14 @@ function formulaire($prenom, $nom, $email, $motDePasse, $telephone, $msg, $succe
     </head>
 
     <body>
-        <nav class="navbar">
-            <a class="active" href="#">Inscription</a>
-        </nav>
+        <ul>
+            <li style="float:left"><a>Etat Civil</a></li>
+            <li><a href="./connexion.php">Connexion</a></li>
+            <li><a class="active" href="./inscription.php">Inscription</a></li>
+        </ul>
+        <div style="min-height: 50px;">
+
+        </div>
         <form method="post" style="margin: auto;">
             <h3>Inscription</h3>
             <p style="color: red; text-align: center">
@@ -65,6 +70,9 @@ function formulaire($prenom, $nom, $email, $motDePasse, $telephone, $msg, $succe
                 <span class="psw">Mot de passe <a href="#">oublié</a></span>
             </div>
         </form>
+        <div style="min-height: 50px;">
+
+        </div>
         <?php
         include_once ('includes/footer.php'); ?>
         <script src="js/script.js"></script>

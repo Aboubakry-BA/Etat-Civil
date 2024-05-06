@@ -27,7 +27,7 @@ function formulaire($email, $motDePasse, $msg)
         <ul>
             <li style="float:left"><a>Etat Civil</a></li>
             <li><a class="active" href="./connexion.php">Connexion</a></li>
-            <li><a href="./inscription.php">Inscription</a></li>
+            <!-- <li><a href="./inscription.php">Inscription</a></li> -->
         </ul>
         <div style="min-height: 50px;">
 
@@ -80,7 +80,7 @@ function traite($email, $motDePasse)
     global $conn;
 
     try {
-        $query = "SELECT * FROM utilisateur WHERE email=? AND actif=1 AND type='CITOYEN' LIMIT 1";
+        $query = "SELECT * FROM utilisateur WHERE email=? AND actif=1 AND type='AGENTMAIRIE' LIMIT 1";
         $stmt = mysqli_prepare($conn, $query);
         mysqli_stmt_bind_param($stmt, "s", $email);
         mysqli_stmt_execute($stmt);
