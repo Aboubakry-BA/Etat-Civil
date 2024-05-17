@@ -26,7 +26,11 @@ function formulaire($region, $departement, $commune, $annee, $prenomEnfant, $nom
     <body>
         <ul>
             <li style="float:left"><a>Etat Civil</a></li>
-            <li><a href="./deconnexion.php" onclick="return confirm('Confirmer déconnexion')">Se Deconnecter</a></li>
+            <li><a href="./deconnexion.php" onclick="return confirm('Confirmer déconnexion')">
+                    Se Deconnecter
+                </a>
+            </li>
+            <li><a href="./gestion_profil.php">Modifier Mot de Passe</a></li>
             <li><a class="active" href="./declaration_naissance.php">Extrait</a></li>
             <li><a href="./historique_demandes.php">Historiques</a></li>
             <li><a href="./visualisation_demandes.php">Demandes</a></li>
@@ -211,11 +215,43 @@ function traite($region, $departement, $commune, $annee, $prenomEnfant, $nomEnfa
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_POST['Annee']) && !empty($_POST['Region']) && !empty($_POST['Departement']) && !empty($_POST['NumDansLeRegistre']) && !empty($_POST['Commune']) && !empty($_POST['PrenomEnfant']) && !empty($_POST['NomEnfant']) && !empty($_POST['PrenomPere']) && !empty($_POST['Sexe']) && !empty($_POST['PrenomMere']) && !empty($_POST['NomMere']) && !empty($_POST['LieuNaissance']) && !empty($_POST['PaysNaissance']) && !empty($_POST['DateNaissance']) && !empty($_POST['HeureNaissance']) && !empty($_POST['CodeCNI']) && !empty($_POST['CodeRegion'])) {
         traite(
-            $_POST['Region'],$_POST['Departement'],$_POST['Commune'],$_POST['Annee'],$_POST['PrenomEnfant'],$_POST['NomEnfant'],$_POST['PrenomPere'],$_POST['Sexe'],$_POST['PrenomMere'],$_POST['NomMere'],$_POST['LieuNaissance'],$_POST['PaysNaissance'],$_POST['NumDansLeRegistre'],$_POST['DateNaissance'],$_POST['HeureNaissance'],$_POST['CodeCNI'],$_POST['CodeRegion'],
+            $_POST['Region'],
+            $_POST['Departement'],
+            $_POST['Commune'],
+            $_POST['Annee'],
+            $_POST['PrenomEnfant'],
+            $_POST['NomEnfant'],
+            $_POST['PrenomPere'],
+            $_POST['Sexe'],
+            $_POST['PrenomMere'],
+            $_POST['NomMere'],
+            $_POST['LieuNaissance'],
+            $_POST['PaysNaissance'],
+            $_POST['NumDansLeRegistre'],
+            $_POST['DateNaissance'],
+            $_POST['HeureNaissance'],
+            $_POST['CodeCNI'],
+            $_POST['CodeRegion'],
         );
     } else {
         formulaire(
-            $_POST['Region'],$_POST['Departement'],$_POST['Commune'],$_POST['Annee'],$_POST['PrenomEnfant'],$_POST['NomEnfant'],$_POST['PrenomPere'],$_POST['Sexe'],$_POST['PrenomMere'],$_POST['NomMere'],$_POST['LieuNaissance'],$_POST['PaysNaissance'],$_POST['NumDansLeRegistre'],$_POST['DateNaissance'],$_POST['HeureNaissance'],$_POST['CodeCNI'],$_POST['CodeRegion'],
+            $_POST['Region'],
+            $_POST['Departement'],
+            $_POST['Commune'],
+            $_POST['Annee'],
+            $_POST['PrenomEnfant'],
+            $_POST['NomEnfant'],
+            $_POST['PrenomPere'],
+            $_POST['Sexe'],
+            $_POST['PrenomMere'],
+            $_POST['NomMere'],
+            $_POST['LieuNaissance'],
+            $_POST['PaysNaissance'],
+            $_POST['NumDansLeRegistre'],
+            $_POST['DateNaissance'],
+            $_POST['HeureNaissance'],
+            $_POST['CodeCNI'],
+            $_POST['CodeRegion'],
             "Tous les champs sont requis",
             ""
         );

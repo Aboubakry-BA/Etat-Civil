@@ -67,7 +67,7 @@ function formulaire($prenom, $nom, $email, $motDePasse, $telephone, $msg, $succe
 
             <div class="container" style="background-color:#f1f1f1">
                 <button type="reset" class="cancelbtn">Annuler</button>
-                <span class="psw">Mot de passe <a href="#">oublié</a></span>
+                <span class="psw">Mot de passe <a href="./mot_passe_oublie.php">oublié</a></span>
             </div>
         </form>
         <div style="min-height: 50px;">
@@ -93,7 +93,7 @@ function traite($prenom, $nom, $email, $motDePasse, $telephone)
             $date = date('Y-m-d');
             $heure = date('H:i:s');
             $actif = 0;
-            $token = md5(uniqid(rand(), true));
+            $token = password_hash(uniqid(rand(), true), PASSWORD_DEFAULT);
             $motDePasse_hash = password_hash($motDePasse, PASSWORD_DEFAULT);
 
             $mailSent = sendValidationEmail($email, $token);
@@ -151,7 +151,7 @@ function sendValidationEmail($email, $token)
         $mail->isHTML(true);
         $mail->Subject = 'Validation de votre adresse e-mail';
         $mail->Body = "<p>Merci de vous être inscrit. Veuillez cliquer sur le lien suivant pour valider votre adresse e-mail :</p>";
-        $mail->Body .= "<p><a href='http://localhost/Etat-civil/utilisateurs/validation.php?email=" . urlencode($email) . "&token=" . $token . "'>Cliquez ici pour valider votre adresse e-mail</a></p>";
+        $mail->Body .= "<p><a href='http://localhost/etat_civil/utilisateurs/validation.php?email=" . urlencode($email) . "&token=" . $token . "'>Cliquez ici pour valider votre adresse e-mail</a></p>";
         $mail->AltBody = "Merci de vous être inscrit. Veuillez cliquer sur le lien suivant pour valider votre adresse e-mail: http://localhost/projets/Projet_extrait/utilisateurs/validation.php?email=" . urlencode($email) . "&token=" . $token;
 
         if (!$mail->Send()) {

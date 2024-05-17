@@ -1,0 +1,3 @@
+<footer>
+    <h3>Copyright 2024 ECOLE SUPERIEUR POLYTECHNIQUE DIC3 INFORMATIQUE</h3>
+</footer>

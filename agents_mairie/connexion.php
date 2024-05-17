@@ -60,7 +60,7 @@ function formulaire($email, $motDePasse, $msg)
 
             <div class="container" style="background-color:#f1f1f1">
                 <button type="reset" class="cancelbtn">Annuler</button>
-                <span class="psw">Mot de passe <a href="#">oublié</a></span>
+                <span class="psw">Mot de passe <a href="./mot_passe_oublie.php">oublié</a></span>
             </div>
         </form>
         <div style="min-height: 50px;">
@@ -104,7 +104,7 @@ function traite($email, $motDePasse)
                 formulaire($email, $motDePasse, $msg);
             }
         } else {
-            $msg = "Aucun compte trouvé avec cet email.";
+            $msg = "Email ou mot de passe incorrect.";
             formulaire($email, $motDePasse, $msg);
         }
     } catch (Exception $e) {

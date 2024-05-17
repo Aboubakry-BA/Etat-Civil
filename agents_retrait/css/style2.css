@@ -1,0 +1,167 @@
+* {
+    box-sizing: border-box;
+}
+
+/* Définition des polices personnalisées */
+@font-face {
+    font-family: 'BallparkWeiner';
+    src: url('../polices/ballpark.eot');
+    src: url('../polices/ballpark.eot?#iefix') format('embedded-opentype'),
+        url('../polices/ballpark.woff') format('woff'),
+        url('../polices/ballpark.ttf') format('truetype'),
+        url('../polices/ballpark.svg#BallparkWeiner') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Dayrom';
+    src: url('../polices/dayrom.eot');
+    src: url('../polices/dayrom.eot?#iefix') format('embedded-opentype'),
+        url('../polices/dayrom.woff') format('woff'),
+        url('../polices/dayrom.ttf') format('truetype'),
+        url('../polices/dayrom.svg#Dayrom') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+ul {
+    list-style-type: none;
+    margin: auto;
+    padding: 0;
+    overflow: hidden;
+    width: 95%;
+    background-color: black;
+    position: sticky;
+    top: 0;
+}
+
+ul>li {
+    font-family: BallparkWeiner;
+}
+
+li {
+    float: right;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #ccc;
+    color: #000;
+}
+
+button {
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 17px;
+    font-family: Raleway;
+    cursor: pointer;
+    width: fit-content;
+    background-color: black;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+#bloc_page2 {
+    width: 90%;
+    margin: auto;
+    font-family: Raleway;
+    border: 2px solid black;
+}
+
+h2 {
+    text-align: center;
+}
+
+.un,
+.deux,
+.trois,
+.quatre,
+.cinq {
+    display: flex;
+    padding-left: 10px;
+    padding-right: 10px;
+    justify-content: space-between;
+    border-bottom: 2px solid black;
+}
+
+.un div {
+    width: 50%;
+    text-align: center;
+}
+
+.un>div[class="a"] {
+    padding-top: 38px;
+    border-right: 2px solid black;
+}
+
+.deux div[class="b"] {
+    width: 80%;
+    border-right: 2px solid black;
+}
+
+.deux div[class="c"] {
+    text-align: center;
+}
+
+.trois div[class="d"] {
+    width: 55%;
+}
+
+.trois div[class="e"] {
+    width: 45%;
+}
+
+div[class="d"]>h6 {
+    margin-top: -15px;
+}
+
+div[class="e"]>h6 {
+    margin-top: -18px;
+    padding-bottom: 60px;
+}
+
+.quatre div[class="f"] {
+    width: 20%;
+    text-align: center;
+    border-right: 2px solid black;
+}
+
+.quatre div[class="g"] {
+    width: 60%;
+    border-right: 2px solid black;
+}
+
+div[class="h"]>h3,
+div[class="h"]>div {
+    padding-bottom: 70px;
+}
+
+div[class="i"]>div {
+    text-align: center;
+    padding-top: 70px;
+    padding-bottom: 20px;
+}
+
+h3,
+label {
+    text-align: center;
+    padding-bottom: 15px;
+    font-family: Dayrom, serif;
+    /*font-family: 'BallparkWeiner',Dayrom, serif;*/
+}

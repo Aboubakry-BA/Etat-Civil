@@ -53,6 +53,7 @@ function afficherHistoriqueDemandes($historique)
                     Se Deconnecter
                 </a>
             </li>
+            <li><a href="./gestion_profil.php">Modifier Mot de Passe</a></li>
             <li><a href="./declaration_naissance.php">Extrait</a></li>
             <li><a class="active" href="./historique_demandes.php">Historiques</a></li>
             <li><a href="./visualisation_demandes.php">Demandes</a></li>
