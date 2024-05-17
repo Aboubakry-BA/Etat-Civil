@@ -103,8 +103,17 @@ function traiteModification($ancienMotDePasse, $nouveauMotDePasse)
     }
 }
 
-if (!empty($_POST['ancienMotDePasse']) && !empty($_POST['nouveauMotDePasse'])) {
-    traiteModification($_POST['ancienMotDePasse'], $_POST['nouveauMotDePasse']);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Nettoyage des entrées utilisateur pour éviter les failles XSS
+    $ancienMotDePasse = strip_tags($_POST['ancienMotDePasse']);
+    $nouveauMotDePasse = strip_tags($_POST['nouveauMotDePasse']);
+
+    // Vérification des champs obligatoires
+    if (!empty($ancienMotDePasse) && !empty($nouveauMotDePasse)) {
+        traiteModification($ancienMotDePasse, $nouveauMotDePasse);
+    } else {
+        formulaire($ancienMotDePasse, $nouveauMotDePasse, "Tous les champs sont requis", "");
+    }
 } else {
     formulaire("", "", "", "");
 }

@@ -132,8 +132,16 @@ function traiteMotDePasseOublie($email)
     }
 }
 
-if (!empty($_POST['email'])) {
-    traiteMotDePasseOublie($_POST['email']);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Nettoyage des entrées utilisateur pour éviter les failles XSS
+    $email = str_replace(array("\n", "\r", PHP_EOL), '', strip_tags($_POST['email']));
+
+    // Vérification des champs obligatoires
+    if (!empty($email)) {
+        traiteMotDePasseOublie($email);
+    } else {
+        formulaire("", "L'email est requis", "");
+    }
 } else {
     formulaire("", "", "");
 }

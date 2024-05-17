@@ -146,10 +146,16 @@ function traite($annee, $numRegistre, $commune)
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!empty($_POST['Annee']) && !empty($_POST['NumRegistre']) && !empty($_POST['Commune'])) {
-        traite($_POST['Annee'], $_POST['NumRegistre'], $_POST['Commune']);
+    // Nettoyage des entrées utilisateur pour éviter les failles XSS
+    $annee = strip_tags($_POST['Annee']);
+    $numRegistre = strip_tags($_POST['NumRegistre']);
+    $commune = strip_tags($_POST['Commune']);
+
+    // Vérification des champs obligatoires
+    if (!empty($annee) && !empty($numRegistre) && !empty($commune)) {
+        traite($annee, $numRegistre, $commune);
     } else {
-        formulaire($_POST['Annee'], $_POST['NumRegistre'], $_POST['Commune'], "Tous les champs sont requis");
+        formulaire($annee, $numRegistre, $commune, "Tous les champs sont requis", "");
     }
 } else {
     formulaire("", "", "", "", "");

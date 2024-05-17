@@ -213,49 +213,68 @@ function traite($region, $departement, $commune, $annee, $prenomEnfant, $nomEnfa
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!empty($_POST['Annee']) && !empty($_POST['Region']) && !empty($_POST['Departement']) && !empty($_POST['NumDansLeRegistre']) && !empty($_POST['Commune']) && !empty($_POST['PrenomEnfant']) && !empty($_POST['NomEnfant']) && !empty($_POST['PrenomPere']) && !empty($_POST['Sexe']) && !empty($_POST['PrenomMere']) && !empty($_POST['NomMere']) && !empty($_POST['LieuNaissance']) && !empty($_POST['PaysNaissance']) && !empty($_POST['DateNaissance']) && !empty($_POST['HeureNaissance']) && !empty($_POST['CodeCNI']) && !empty($_POST['CodeRegion'])) {
+    // Nettoyage des entrées utilisateur pour éviter les failles XSS
+    $annee = strip_tags($_POST['Annee']);
+    $region = strip_tags($_POST['Region']);
+    $departement = strip_tags($_POST['Departement']);
+    $numDansLeRegistre = strip_tags($_POST['NumDansLeRegistre']);
+    $commune = strip_tags($_POST['Commune']);
+    $prenomEnfant = strip_tags($_POST['PrenomEnfant']);
+    $nomEnfant = strip_tags($_POST['NomEnfant']);
+    $prenomPere = strip_tags($_POST['PrenomPere']);
+    $sexe = strip_tags($_POST['Sexe']);
+    $prenomMere = strip_tags($_POST['PrenomMere']);
+    $nomMere = strip_tags($_POST['NomMere']);
+    $lieuNaissance = strip_tags($_POST['LieuNaissance']);
+    $paysNaissance = strip_tags($_POST['PaysNaissance']);
+    $dateNaissance = strip_tags($_POST['DateNaissance']);
+    $heureNaissance = strip_tags($_POST['HeureNaissance']);
+    $codeCNI = strip_tags($_POST['CodeCNI']);
+    $codeRegion = strip_tags($_POST['CodeRegion']);
+
+    // Vérification des champs obligatoires
+    if (!empty($annee) && !empty($region) && !empty($departement) && !empty($numDansLeRegistre) && !empty($commune) && !empty($prenomEnfant) && !empty($nomEnfant) && !empty($prenomPere) && !empty($sexe) && !empty($prenomMere) && !empty($nomMere) && !empty($lieuNaissance) && !empty($paysNaissance) && !empty($dateNaissance) && !empty($heureNaissance) && !empty($codeCNI) && !empty($codeRegion)) {
         traite(
-            $_POST['Region'],
-            $_POST['Departement'],
-            $_POST['Commune'],
-            $_POST['Annee'],
-            $_POST['PrenomEnfant'],
-            $_POST['NomEnfant'],
-            $_POST['PrenomPere'],
-            $_POST['Sexe'],
-            $_POST['PrenomMere'],
-            $_POST['NomMere'],
-            $_POST['LieuNaissance'],
-            $_POST['PaysNaissance'],
-            $_POST['NumDansLeRegistre'],
-            $_POST['DateNaissance'],
-            $_POST['HeureNaissance'],
-            $_POST['CodeCNI'],
-            $_POST['CodeRegion'],
+            $region,
+            $departement,
+            $commune,
+            $annee,
+            $prenomEnfant,
+            $nomEnfant,
+            $prenomPere,
+            $sexe,
+            $prenomMere,
+            $nomMere,
+            $lieuNaissance,
+            $paysNaissance,
+            $numDansLeRegistre,
+            $dateNaissance,
+            $heureNaissance,
+            $codeCNI,
+            $codeRegion
         );
     } else {
         formulaire(
-            $_POST['Region'],
-            $_POST['Departement'],
-            $_POST['Commune'],
-            $_POST['Annee'],
-            $_POST['PrenomEnfant'],
-            $_POST['NomEnfant'],
-            $_POST['PrenomPere'],
-            $_POST['Sexe'],
-            $_POST['PrenomMere'],
-            $_POST['NomMere'],
-            $_POST['LieuNaissance'],
-            $_POST['PaysNaissance'],
-            $_POST['NumDansLeRegistre'],
-            $_POST['DateNaissance'],
-            $_POST['HeureNaissance'],
-            $_POST['CodeCNI'],
-            $_POST['CodeRegion'],
+            $region,
+            $departement,
+            $commune,
+            $annee,
+            $prenomEnfant,
+            $nomEnfant,
+            $prenomPere,
+            $sexe,
+            $prenomMere,
+            $nomMere,
+            $lieuNaissance,
+            $paysNaissance,
+            $numDansLeRegistre,
+            $dateNaissance,
+            $heureNaissance,
+            $codeCNI,
+            $codeRegion,
             "Tous les champs sont requis",
             ""
         );
-
     }
 } else {
     formulaire('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '');

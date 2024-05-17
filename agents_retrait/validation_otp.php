@@ -85,14 +85,25 @@ function traite($email, $otp)
     }
 }
 
-if (!empty($_POST['otp']) && !empty($_POST['email'])) {
-    traite($_POST['email'], $_POST['otp']);
-} else {
-    if (!empty($_GET['email'])) {
-        formulaire($_GET['email'], "");
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Nettoyage des entrées utilisateur pour éviter les failles XSS
+    $email = strip_tags($_POST['email']);
+    $otp = strip_tags($_POST['otp']);
+
+    // Vérification des champs obligatoires
+    if (!empty($otp) && !empty($email)) {
+        traite($email, $otp);
     } else {
-        header("Location: connexion.php");
-        exit;
+        // Si les champs ne sont pas complets, on vérifie s'il y a un email dans la requête GET
+        if (!empty($_GET['email'])) {
+            formulaire($_GET['email'], "");
+        } else {
+            // Redirection vers la page de connexion si l'email n'est pas présent dans la requête GET
+            header("Location: connexion.php");
+            exit;
+        }
     }
+} else {
+    formulaire("", "");
 }
 ?>

@@ -166,8 +166,20 @@ function sendValidationEmail($email, $token)
     }
 }
 
-if (!empty($_POST['prenom']) && !empty($_POST['nom']) && !empty($_POST['email']) && !empty($_POST['motDePasse']) && !empty($_POST['telephone'])) {
-    traite($_POST['prenom'], $_POST['nom'], $_POST['email'], $_POST['motDePasse'], $_POST['telephone']);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Nettoyage des entrées utilisateur pour éviter les failles XSS
+    $prenom = strip_tags($_POST['prenom']);
+    $nom = strip_tags($_POST['nom']);
+    $email = strip_tags($_POST['email']);
+    $motDePasse = strip_tags($_POST['motDePasse']);
+    $telephone = strip_tags($_POST['telephone']);
+
+    // Vérification des champs obligatoires
+    if (!empty($prenom) && !empty($nom) && !empty($email) && !empty($motDePasse) && !empty($telephone)) {
+        traite($prenom, $nom, $email, $motDePasse, $telephone);
+    } else {
+        formulaire($prenom, $nom, $email, $motDePasse, $telephone, "Tous les champs sont requis", "");
+    }
 } else {
     formulaire("", "", "", "", "", "", "");
 }

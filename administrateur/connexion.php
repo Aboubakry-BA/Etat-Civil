@@ -162,8 +162,17 @@ function storeOTPInDatabase($email, $otpCode)
     mysqli_stmt_execute($stmt);
 }
 
-if (!empty($_POST['email']) && !empty($_POST['motDePasse'])) {
-    traite($_POST['email'], $_POST['motDePasse']);
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Nettoyage des entrées utilisateur pour éviter les failles XSS
+    $email = strip_tags($_POST['email']);
+    $motDePasse = strip_tags($_POST['motDePasse']);
+
+    // Vérification des champs obligatoires
+    if (!empty($email) && !empty($motDePasse)) {
+        traite($email, $motDePasse);
+    } else {
+        formulaire($email, $motDePasse, "Tous les champs sont requis");
+    }
 } else {
     formulaire("", "", "");
 }

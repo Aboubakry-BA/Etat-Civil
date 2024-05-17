@@ -157,10 +157,15 @@ function traite($email, $token)
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (!empty($_POST['Email']) && !empty($_POST['Token'])) {
-        traite($_POST['Email'], $_POST['Token']);
+    // Nettoyage des entrées utilisateur pour éviter les failles XSS
+    $email = strip_tags($_POST['Email']);
+    $token = strip_tags($_POST['Token']);
+
+    // Vérification des champs obligatoires
+    if (!empty($email) && !empty($token)) {
+        traite($email, $token);
     } else {
-        formulaire($_POST['Email'], $_POST['Token'], "Tous les champs sont requis", "");
+        formulaire($email, $token, "Tous les champs sont requis", "");
     }
 } else {
     formulaire("", "", "");
