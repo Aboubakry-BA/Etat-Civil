@@ -91,19 +91,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $otp = strip_tags($_POST['otp']);
 
     // Vérification des champs obligatoires
-    if (!empty($otp) && !empty($email)) {
+    if (!empty($email) && !empty($otp)) {
         traite($email, $otp);
     } else {
-        // Si les champs ne sont pas complets, on vérifie s'il y a un email dans la requête GET
-        if (!empty($_GET['email'])) {
-            formulaire($_GET['email'], "");
+        if (!empty($email)) {
+            formulaire($email, "Tous les champs sont requis");
         } else {
-            // Redirection vers la page de connexion si l'email n'est pas présent dans la requête GET
             header("Location: connexion.php");
             exit;
         }
     }
 } else {
-    formulaire("", "");
+    if (!empty($_GET['email'])) {
+        formulaire(strip_tags($_GET['email']), "");
+    } else {
+        header("Location: connexion.php");
+        exit;
+    }
 }
 ?>
