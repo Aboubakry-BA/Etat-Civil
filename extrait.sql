@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le : lun. 06 mai 2024 à 05:30
+-- Généré le : dim. 19 mai 2024 à 15:12
 -- Version du serveur : 10.4.28-MariaDB
 -- Version de PHP : 8.2.4
 
@@ -48,7 +48,8 @@ INSERT INTO `centreec` (`id`, `nomCommune`, `codeCNI`, `timbre`, `departement`, 
 (4, 'w', '1', NULL, 'w', 'DAKAR', '1'),
 (5, '1', '1', NULL, 'w', 'DAKAR', '1'),
 (6, 'Baba Garage', '1', NULL, 'Bambey', 'DIOURBEL', '1'),
-(7, 'Mbour', '1', NULL, 'Mbour', 'THIES', '1');
+(7, 'Mbour', '1', NULL, 'Mbour', 'THIES', '1'),
+(8, 'PIKINE', '212', NULL, 'PIKINE', 'DAKAR', '2');
 
 -- --------------------------------------------------------
 
@@ -65,16 +66,19 @@ CREATE TABLE `demande` (
   `date` date NOT NULL,
   `heure` time NOT NULL,
   `status` enum('VALIDE','REFUSE','EN COURS') NOT NULL,
-  `token` varchar(255) DEFAULT NULL
+  `token` varchar(255) DEFAULT NULL,
+  `dateRetrait` date DEFAULT NULL,
+  `heureRetrait` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `demande`
 --
 
-INSERT INTO `demande` (`id`, `idExtrait`, `idDelivreur`, `idRetireur`, `idCitoyen`, `date`, `heure`, `status`, `token`) VALUES
-(1, 1, 34, NULL, 32, '2024-04-09', '03:35:02', 'EN COURS', '567545'),
-(3, 1, 34, NULL, 33, '2024-04-28', '20:19:53', 'REFUSE', NULL);
+INSERT INTO `demande` (`id`, `idExtrait`, `idDelivreur`, `idRetireur`, `idCitoyen`, `date`, `heure`, `status`, `token`, `dateRetrait`, `heureRetrait`) VALUES
+(1, 7, 34, 35, 32, '2024-04-09', '03:35:02', 'VALIDE', NULL, '2024-05-15', '02:36:50'),
+(3, 11, 34, NULL, 33, '2024-04-28', '20:19:53', 'REFUSE', NULL, NULL, NULL),
+(6, 1, 49, 51, 48, '2024-05-19', '03:41:35', 'VALIDE', NULL, '2024-05-19', '03:58:17');
 
 -- --------------------------------------------------------
 
@@ -105,8 +109,9 @@ CREATE TABLE `extrait` (
 
 INSERT INTO `extrait` (`id`, `numDansLeRegistre`, `dateDeLivrance`, `paysNaissance`, `prenom`, `sexe`, `dateNaissance`, `lieuNaissance`, `heureNaissance`, `anneeRegistre`, `idPere`, `idMere`, `idCentreEc`, `idAgent`) VALUES
 (1, 123, '2021-04-09 03:29:45', 'Senegal', 'Aboubakry', 'MASCULIN', '2001-04-09', 'Guinguinéo', '01:29:46', 2001, 1, 1, 1, NULL),
-(7, 321, '2024-05-06 00:00:00', 'Senegal', 'Modou', 'MASCULIN', '2024-05-06', 'Bambey', '02:44:00', 2022, 26, 26, 6, 34),
-(11, 321, '2024-05-06 00:00:00', 'Senagal', 'Saly', 'MASCULIN', '2024-05-06', 'Mbour', '03:13:00', 1970, 30, 30, 7, 34);
+(7, 321, '2024-05-06 00:00:00', 'Senegal', 'Modou', 'MASCULIN', '2024-05-06', 'Bambey', '02:44:00', 1999, 26, 26, 6, 34),
+(11, 321, '2024-05-06 00:00:00', 'Senagal', 'Saly', 'FEMININ', '2024-05-06', 'Mbour', '03:13:00', 1970, 30, 30, 7, 34),
+(12, 245, '2024-05-19 00:00:00', 'SENEGAL', 'BENJAMIN', 'MASCULIN', '2024-05-19', 'PIKINE', '01:48:00', 2024, 31, 31, 8, 49);
 
 -- --------------------------------------------------------
 
@@ -128,7 +133,8 @@ CREATE TABLE `mere` (
 INSERT INTO `mere` (`id`, `prenom`, `nom`, `numCNI`) VALUES
 (1, 'Sadio', 'GCBA', NULL),
 (26, 'Faty', 'SALL', NULL),
-(30, 'Fatou', 'Diop', NULL);
+(30, 'Fatou', 'Diop', NULL),
+(31, 'ASTOU', 'DIOP', NULL);
 
 -- --------------------------------------------------------
 
@@ -150,20 +156,8 @@ CREATE TABLE `pere` (
 INSERT INTO `pere` (`id`, `prenom`, `nom`, `numCNI`) VALUES
 (1, 'Abdoulaye', 'BA', NULL),
 (26, 'Aboubakry', 'BA', NULL),
-(30, 'Ousmane', 'Tine', NULL);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `retrait`
---
-
-CREATE TABLE `retrait` (
-  `id` int(11) NOT NULL,
-  `idDemande` int(11) NOT NULL,
-  `date` date NOT NULL,
-  `heure` time NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+(30, 'Ousmane', 'Tine', NULL),
+(31, 'ALIOU', 'NDIAYE', NULL);
 
 -- --------------------------------------------------------
 
@@ -178,7 +172,6 @@ CREATE TABLE `utilisateur` (
   `email` varchar(255) NOT NULL,
   `telephone` varchar(255) NOT NULL,
   `motDePasse` varchar(255) DEFAULT NULL,
-  `photoCNI` varchar(255) DEFAULT NULL,
   `numCNI` varchar(255) NOT NULL,
   `type` enum('ADMIN','CITOYEN','AGENTMAIRIE','AGENTRETRAIT') NOT NULL,
   `date` date NOT NULL,
@@ -193,13 +186,15 @@ CREATE TABLE `utilisateur` (
 -- Déchargement des données de la table `utilisateur`
 --
 
-INSERT INTO `utilisateur` (`id`, `prenom`, `nom`, `email`, `telephone`, `motDePasse`, `photoCNI`, `numCNI`, `type`, `date`, `heure`, `idAdmin`, `actif`, `token`, `otpCode`) VALUES
-(29, 'Abdoulaye', 'BA', 'baa70390@gmail.com', '774954357', '$2y$10$wd0L9V0IVpmFHHtzU/hWTeP1Fq1FQxGlRAmMpxFRRiBjQcaV47x6O', NULL, '', 'CITOYEN', '2024-04-08', '03:33:40', NULL, 1, '86ba0bcacd35cb697af21220f3a56040', '652786'),
-(30, 'Abdoulaye', 'BA', 'baa70391@gmail.com', '774954357', '$2y$10$Ngv95ZvQ.a6a9TXo9Mpx0uV70tRL6Z2SPEYs19Gdt.gjBjcOsLNhK', NULL, '', 'CITOYEN', '2024-04-08', '03:36:54', NULL, 1, '933056fd300d6de18dfc5d6de2212e5d', NULL),
-(31, 'Abdoulaye', 'BA', 'baa70392@gmail.com', '774954357', '$2y$10$0/UDhCD9gGWKKJw588IkQePR2joDrdnNw0ZS3yXtcB/K29nljDnBu', NULL, '', 'CITOYEN', '2024-04-08', '03:38:42', NULL, 1, '3fc5fbf7793a94fb12cd616ca7d87f86', NULL),
-(32, 'Aboubakry', 'BA', 'aboubakryba@esp.sn', '774954357', '$2y$10$q0RE0t0PtURdMu0LKrnA4ey82ONLfbRqevLBCD41dHDTJMFTEItCa', NULL, '', 'CITOYEN', '2024-04-08', '06:06:58', NULL, 1, 'e4f6525e53cb6dcf71d39f582b1586c4', '291006'),
-(33, 'Ndeye Coumba', 'Samb', 'ndeyecoumba@esp.sn', '777777777', '$2y$10$FgO1fdWYpswb6jA7eq7wfemiEYWdWN7EU/WHFoIx6YUquYVHtrnC2', NULL, '', 'CITOYEN', '2024-04-28', '20:12:48', NULL, 1, '8ed492300ac19762fa5c0924b91bb05e', '337281'),
-(34, 'Agent1', 'Mairie', 'agent1@mairie.sn', '777777777', '$2y$10$msG2OI9aLroUvrSdyCkLMOkaa5TesBL6uBwSocz2Jko5.rUY4bh1a', NULL, '', 'AGENTMAIRIE', '2024-05-05', '00:36:16', NULL, 1, '66a8419e0036ce562318010723e1fa89', '774642');
+INSERT INTO `utilisateur` (`id`, `prenom`, `nom`, `email`, `telephone`, `motDePasse`, `numCNI`, `type`, `date`, `heure`, `idAdmin`, `actif`, `token`, `otpCode`) VALUES
+(32, 'Abdoulaye', 'BA', 'abdoulayeba@esp.sn', '777777777', '$2y$10$q0RE0t0PtURdMu0LKrnA4ey82ONLfbRqevLBCD41dHDTJMFTEItCa', '', 'CITOYEN', '2024-04-08', '06:06:58', NULL, 1, 'e4f6525e53cb6dcf71d39f582b1586c4', '339005'),
+(33, 'Ndeye Coumba', 'Samb', 'ndeyecoumbasamb@esp.sn', '777777777', '$2y$10$FgO1fdWYpswb6jA7eq7wfemiEYWdWN7EU/WHFoIx6YUquYVHtrnC2', '', 'CITOYEN', '2024-04-28', '20:12:48', NULL, 1, '8ed492300ac19762fa5c0924b91bb05e', '337281'),
+(34, 'Agent1', 'Mairie', 'agent1@mairie.sn', '777777777', '$2y$10$msG2OI9aLroUvrSdyCkLMOkaa5TesBL6uBwSocz2Jko5.rUY4bh1a', '', 'AGENTMAIRIE', '2024-05-05', '00:36:16', NULL, 1, '66a8419e0036ce562318010723e1fa89', '774642'),
+(35, 'Agent1', 'Retrait', 'agent1@retrait.sn', '777777777', '$2y$10$AXp8ZWFHYkj67J77OIUfPOcPjjAuBW7Bkmyfh02MZjS9MtJdD1JMO', '', 'AGENTRETRAIT', '2024-05-14', '01:27:23', NULL, 1, 'dbc22f0078d8726451f77c039ca5c9b9', '910982'),
+(46, 'Admin1', 'Admin', 'admin@system.sn', '777777777', '$2y$10$tXdJCo7aFZiPPQrFNX3VKePmL38mjg8dF3WgVS4uNW0s3tYCrtH.y', '', 'ADMIN', '2024-05-19', '03:15:47', NULL, 1, '$2y$10$EC.AaURlUCAxBWwOCIGNceRo.ijiTGvSQwdjTGR7LDz0FpbkcJG9S', '666060'),
+(48, 'Aboubakry', 'BA', 'aboubakryba@esp.sn', '774954357', '$2y$10$Y9DZ/kUsDCL/WX4YgsmQSeuaUJdvdbSZM/L.GeRP/mQM4DoQaw1RC', '', 'CITOYEN', '2024-05-19', '03:39:28', NULL, 1, '$2y$10$3VEh2ArSTmhXwYhfagfniOt2xSqNVRn.lo.2plzIZh.09xN8lafiO', '824876'),
+(49, 'Agent2', 'Mairie', 'agent2@mairie.sn', '771234567', '$2y$10$VH7z8UyRI0WeTk8et5j4U.0J4VUh.EI.V9bnPuUtr1Mjh3BfLGmsO', '1476200100000', 'AGENTMAIRIE', '2024-05-19', '03:44:13', 46, 1, 'ec088489ac800a6c9fbc4e7cfdc15608', '282049'),
+(51, 'Agent2', 'Retrait', 'agent2@retrait.sn', '777654321', '$2y$10$9cOiqSe1xRRhIniyuXbmr.UFWWCwKXx2kQd6Y5X/Ley2CuosAxrEe', '1476199900000', 'AGENTRETRAIT', '2024-05-19', '03:54:32', 46, 1, 'fcf7bb1a2976a71fe803997bf7c1eaef', '699124');
 
 --
 -- Index pour les tables déchargées
@@ -244,13 +239,6 @@ ALTER TABLE `pere`
   ADD PRIMARY KEY (`id`);
 
 --
--- Index pour la table `retrait`
---
-ALTER TABLE `retrait`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `idDemande` (`idDemande`);
-
---
 -- Index pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
@@ -265,43 +253,37 @@ ALTER TABLE `utilisateur`
 -- AUTO_INCREMENT pour la table `centreec`
 --
 ALTER TABLE `centreec`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT pour la table `demande`
 --
 ALTER TABLE `demande`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT pour la table `extrait`
 --
 ALTER TABLE `extrait`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT pour la table `mere`
 --
 ALTER TABLE `mere`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT pour la table `pere`
 --
 ALTER TABLE `pere`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
-
---
--- AUTO_INCREMENT pour la table `retrait`
---
-ALTER TABLE `retrait`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- Contraintes pour les tables déchargées
@@ -324,12 +306,6 @@ ALTER TABLE `extrait`
   ADD CONSTRAINT `extrait_ibfk_2` FOREIGN KEY (`idMere`) REFERENCES `mere` (`id`),
   ADD CONSTRAINT `extrait_ibfk_3` FOREIGN KEY (`idCentreEc`) REFERENCES `centreec` (`id`),
   ADD CONSTRAINT `extrait_ibfk_4` FOREIGN KEY (`idAgent`) REFERENCES `utilisateur` (`id`);
-
---
--- Contraintes pour la table `retrait`
---
-ALTER TABLE `retrait`
-  ADD CONSTRAINT `retrait_ibfk_1` FOREIGN KEY (`idDemande`) REFERENCES `demande` (`id`);
 
 --
 -- Contraintes pour la table `utilisateur`
