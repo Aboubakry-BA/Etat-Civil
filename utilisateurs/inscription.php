@@ -57,7 +57,7 @@ function formulaire($prenom, $nom, $email, $motDePasse, $telephone, $msg, $succe
 
                 <label for="telephone"><b>Téléphone</b></label>
                 <input type="text" placeholder="Entrer votre téléphone" name="telephone" value="<?php echo $telephone ?>"
-                    required>
+                    pattern="\d{9}" title="Le numéro de téléphone doit comporter exactement 9 chiffres" required>
 
                 <button type="submit">S'inscrire</button>
                 <label>

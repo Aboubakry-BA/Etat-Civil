@@ -122,18 +122,18 @@ function traite($prenom, $nom, $email, $type, $telephone, $numCNI)
                 mysqli_stmt_bind_param($stmt, "sssssssssssi", $prenom, $nom, $email, $motDePasse_hash, $telephone, $numCNI, $type, $date, $heure, $actif, $token, $idAdmin);
                 if (mysqli_stmt_execute($stmt)) {
                     $success_msg = "Agent ajouté avec succés et un mail lui a été envoyé.";
-                    formulaire("", "", "", "", "", "", "", $success_msg);
+                    formulaire($prenom, $nom, $email, $type, $telephone, $numCNI, "", $success_msg);
                 } else {
                     $msg = "Une erreur s'est produite lors de l'inscription. Veuillez réessayer plus tard.";
-                    formulaire("", "", "", "", "", "", $msg, "");
+                    formulaire($prenom, $nom, $email, $type, $telephone, $numCNI, $msg, "");
                 }
             } else {
                 $msg = "Une erreur s'est produite lors de l'envoi de l'e-mail de validation.";
-                formulaire("", "", "", "", "", "", $msg, "");
+                formulaire($prenom, $nom, $email, $type, $telephone, $numCNI, $msg, "");
             }
         } else {
             $msg = "L'email est déjà utilisé.";
-            formulaire("", "", "", "", "", "", $msg, "");
+            formulaire($prenom, $nom, $email, $type, $telephone, $numCNI, $msg, "");
         }
     } catch (Exception $e) {
         $msg = $e->getMessage();

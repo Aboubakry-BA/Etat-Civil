@@ -78,4 +78,10 @@ function toggle() {
 	} else {
 		x.type = "password";
 	}
+	let y = document.getElementById("showpsw2");
+	if (y.type === "password") {
+		y.type = "text";
+	} else {
+		y.type = "password";
+	}
 }
